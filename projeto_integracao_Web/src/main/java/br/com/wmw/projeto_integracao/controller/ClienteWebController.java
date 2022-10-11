@@ -46,7 +46,7 @@ public class ClienteWebController {
 		
 		} else {
 		
-			return new ResponseEntity<Cliente>(cliente, HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<Cliente>(cliente, HttpStatus.BAD_REQUEST);
 		}
 
 	}
