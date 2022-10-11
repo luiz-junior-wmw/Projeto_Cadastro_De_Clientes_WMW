@@ -16,7 +16,7 @@ class CadastrarClienteControllerTest {
 	static final String MASK_CNPJ = "99.999.999/9999-99";
 
 	@Test
-	void DeveriaAceitarSomente_F() {
+	void deveriaAceitarSomente_F() {
 
 		boolean campoF = controller.isVerificaSeEditRecebe_F(SOMENTE_F);
     	assertEquals(true, campoF);
@@ -24,7 +24,7 @@ class CadastrarClienteControllerTest {
 	}
 	
 	@Test
-	void DeveriaAceitarSomente_J() {
+	void deveriaAceitarSomente_J() {
 		
     	boolean campoJ = controller.isVerificaSeEditRecebe_J(SOMENTE_J);
     	assertEquals(true, campoJ);
@@ -39,7 +39,7 @@ class CadastrarClienteControllerTest {
 	}
 	
 	@Test
-	void DeveriaHabilitarBotaoInserir() {
+	void deveriaHabilitarBotaoInserir() {
 		
 		boolean botaoInserir = controller.isVerificaCamposPreenchidosParaHabilitarBotaoInserir(NAO_VAZIO,NAO_VAZIO,NAO_VAZIO,NAO_VAZIO);
 		assertEquals(true, botaoInserir);
@@ -47,7 +47,7 @@ class CadastrarClienteControllerTest {
 	}
 	
 	@Test
-	void DeveriaHabilitarBotaoLimpar() {
+	void deveriaHabilitarBotaoLimpar() {
 		
 		boolean botaoLimpar = controller.isVerificaSeCamposNaoEstaoVaziosParaHabilitarBotaoLimpar(NAO_VAZIO,NAO_VAZIO,NAO_VAZIO,NAO_VAZIO);
 		assertEquals(true, botaoLimpar);
@@ -55,7 +55,7 @@ class CadastrarClienteControllerTest {
 	}
 	
 	@Test
-	void TelefoneDeveriamSerValido() {
+	void telefoneDeveriamSerValido() {
 		
 		boolean telefoneValido = controller.isValidaNumeroDeTelefone(MASK_TELEFONE);
 		assertEquals(true, telefoneValido);
@@ -63,7 +63,7 @@ class CadastrarClienteControllerTest {
 	}
 	
 	@Test
-	void CnpjDeveriaSerValido() {
+	void cnpjDeveriaSerValido() {
 		
 		boolean cnpjValido = controller.isValidaNumeroDeCnpj(true, MASK_CNPJ);
 		assertEquals(true, cnpjValido);
@@ -71,7 +71,7 @@ class CadastrarClienteControllerTest {
 	}
 	
 	@Test
-	void CpfDeveriaSerValido() {
+	void cpfDeveriaSerValido() {
 		
 		boolean cpfValido = controller.isValidaNumeroDeCpf(true, MASK_CPF);
 		assertEquals(true, cpfValido);
