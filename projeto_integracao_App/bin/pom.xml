@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.totalcross.prototipo</groupId>
+	<artifactId>WMW</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>WmwApp</name>
+	<description>Prototype of WmwApp Sample app</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.totalcross</groupId>
+            <artifactId>totalcross-sdk</artifactId>
+            <version>6.1.0</version>
+        </dependency>
+        
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency> <groupId>br.com.caelum.stella</groupId> 
+         <artifactId>caelum-stella-core</artifactId> 
+         <version>2.1.2</version> 
+         </dependency>
+        
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>totalcross-repo</id>
+            <name>ip-172-31-40-140-releases</name>
+            <url>http://maven.totalcross.com/artifactory/repo1</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>totalcross-repo</id>
+            <name>ip-172-31-40-140-releases</name>
+            <url>http://maven.totalcross.com/artifactory/repo1</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.totalcross</groupId>
+                <artifactId>totalcross-maven-plugin</artifactId>
+                <version>2.0.1</version>
+                <configuration>
+                    <name>${project.name}</name>
+                    <platforms>
+                        <platform>-android</platform>
+                        <platform>-linux</platform>
+                        <platform>-linux_arm</platform>
+                    </platforms>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>post-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>retrolambda</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									com.totalcross
+        								</groupId>
+        								<artifactId>
+        									totalcross-maven-plugin
+        								</artifactId>
+        								<versionRange>
+        									[2.0.1,)
+        								</versionRange>
+        								<goals>
+        									<goal>retrolambda</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
+    </build>
+</project>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<title>Web_Wmw</title>
+<style type="text/css">
+
+html {
+	margin-left: 5%;
+	margin-right: 10%;
+	margin-top: 5%;
+}
+</style>
+
+</head>
+<body>
+	<figure>
+		<img src="https://i.postimg.cc/PfMHjGLR/w2.jpg" width="100%" style="margin-top: -8%">
+	</figure>
+	
+	<h2>Informações do Cliente</h2>
+	<div style="font-size: 12px;">* Campos obrigatórios.</div>
+	<hr><br>
+	<form action="" id="CadastroCliente">
+		<div class="mb-4">
+			<label for="cod" class="form-label">Cod:</label> 
+			<input type="text" class="form-control" id="cod" readonly="readonly" >
+		</div>
+		
+		<div class="mb-4">
+			<label for="nome" class="form-label">Nome: *</label> 
+			<input type="text" class="form-control" id="nome" placeholder="Digite o nome" required="required">
+		</div>
+		
+		<div class="mb-4">
+			<label for="email" class="form-label">E-mail:</label> 
+			<input type="text" class="form-control" id="email" placeholder="exemplo@exemplo.com">
+		</div>
+		
+		<div class="mb-4">
+			<label for="telefone" class="form-label">Telefone: *</label> 
+			<input type="text" maxlength="13" class="form-control" id="telefone" placeholder="+99 (99) 9 9999-9999">
+			<script type="text/javascript">$("#telefone").mask("+00 (00) 0 0000-0009");</script>
+		</div>
+
+		<div class="mb-4">
+			<label for="tipo_de_Pessoa" class="form-label">Tipo de pessoa: *</label> 
+			<input type="text" class="form-control" id="tipo_de_Pessoa" onkeyup="tipoPessoa()" maxlength="1"/>
+		</div>
+
+        <div class="mb-4">
+            <label for="cpf_Cnpj" class="form-label">CPF/CNPJ:</label>
+            <br>
+        <input type="text" id="cpf_Cnpj" placeholder="Digite seu CPF ou CNPJ" disabled="disabled" >
+        </div>
+
+	</form>
+    <hr>
+
+	<button type="button" class="btn btn-secondary" onclick="document.getElementById('CadastroCliente').reset(); habilitaCampos()">Novo</button>
+	<button type="button" class="btn btn-primary" onclick="salvarCliente()">Salvar</button>
+	<button type="button" class="btn btn-warning" data-bs-toggle="modal" onclick="limpaCampos()" data-bs-target="#ModalPesquisar">Pesquisar</button>
+	<button type="button" class="btn btn-danger" onclick="atualizarParaEXC_APP()">Excluir</button>
+
+	<div class="modal fade" id="ModalPesquisar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Pesquisa de Cliente</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+
+	<div class="modal-body">
+		<form>
+			<div class="mb-2">
+				<label for="nomeBusca" class="col-form-label">Informe o nome:</label> <input type="text" class="form-control" id="nomeBusca">
+				<br>
+			</div>
+	
+	<button type="button" class="btn btn-success" onclick="pesquisarClienteAtivo()">Clientes Ativos</button>
+	<button type="button" class="btn btn-success" onclick="pesquisarClienteInativo()">Clientes inativos</button>
+	<button type="button" class="btn btn-success" onclick="pesquisarTodosOsClientes()">Todos os Clientes</button>
+		</form>
+		<br>
+
+	<div style="height: 350px; overflow: scroll;">
+		<table class="table" id="tabelaResultados">
+			<thead>
+	    		<tr>
+					<th scope="col">Código</th>
+					<th scope="col">Nome</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+	</script>
+
+
+<script type="text/javascript">
+
+
+function pesquisarClienteAtivo() {
+	    		
+    var nome = $("#nomeBusca").val();
+
+		   		$.ajax(
+		    			{
+					    method : "GET",
+						url : "buscarPorStatusClienteAtivo",
+						data : "nome=" + nome,
+						success : function(response) {
+						$('#tabelaResultados > tbody > tr').remove();
+
+							for (var i = 0; i < response.length; i++) {
+								$('#tabelaResultados > tbody ')
+			    				   .append('<tr id="'+response[i].cod+'"><td>'+response[i].cod+'</td><td>'+
+				        		   response[i].nome+'</td><td><button type="button" onclick = "IrParaEdicao('+
+								   response[i].cod+ ')" class="btn btn-primary">Editar</button></td>></td></tr>');
+						    			}
+									}
+								}).fail(
+								function(xhr, status, errorThrown) {
+									alert("Erro ao Buscar o cliente: ", xhr.responseText);
+								});
+                   		}
+	  
+function pesquisarTodosOsClientes() {
+			
+    var nome = $("#nomeBusca").val();
+
+				$.ajax(
+						{
+					    method : "GET",
+						url : "buscarTodosClientes",
+						data : "nome=" + nome,
+						success : function(response) {
+						$('#tabelaResultados > tbody > tr').remove();
+
+							for (var i = 0; i < response.length; i++) {
+								$('#tabelaResultados > tbody ')
+					    		   .append('<tr id="'+response[i].cod+'"><td>'+response[i].cod+'</td><td>'+
+								   response[i].nome+'</td><td><button type="button" disabled = "true" onclick = "IrParaEdicao('+
+								   response[i].cod+ ')" class="btn btn-primary">Editar</button></td></td></tr>');
+										}
+									}
+								}).fail(
+								function(xhr, status, errorThrown) {
+									alert("Erro ao Buscar o cliente: ", xhr.responseText);
+								});
+		                 }
+	  
+function pesquisarClienteInativo() {
+			
+    var nome = $("#nomeBusca").val();
+
+			    $.ajax(
+						{
+						method : "GET",
+						url : "buscarPorStatusClienteInativo",
+						data : "nome=" + nome,
+						success : function(response) {
+						$('#tabelaResultados > tbody > tr').remove();
+
+							for (var i = 0; i < response.length; i++) {
+								$('#tabelaResultados > tbody ')
+								.append('<tr id="'+response[i].cod+'"><td>'
+								 + response[i].cod+'</td><td>'+ response[i].nome
+								 + '</td><td><button type="button" disabled = "true" onclick = "IrParaEdicao('
+								 + response[i].cod + ')" class="btn btn-primary">Editar</button></td><td><button type="button" onclick = "ReativarCliente('
+								 + response[i].cod + ')" class="btn btn-primary">Ativar</button></td></td></tr>');
+									}
+								}
+							}).fail(function(xhr, status, errorThrown) {
+						       alert("Erro ao Buscar o cliente: ", xhr.responseText);
+					});
+		}
+
+function IrParaEdicao(cod) {
+
+    			$.ajax(
+    					{
+				        method : "GET",
+				        url : "buscarClienteCod",
+				        data : "Cod=" + cod,
+				        success : function(response) {
+     					$("#cod").val(response.cod);
+	     				$("#nome").val(response.nome);
+		    			$("#email").val(response.email);
+			    		$("#telefone").val(response.telefone);
+				    	$("#tipo_de_Pessoa").val(response.tipo_de_Pessoa);
+					    $("#cpf_Cnpj").val(response.cpf_Cnpj);
+					    $("#status").val(response.status);
+
+					    $('#ModalPesquisar').modal('hide');
+					    $("#nome").prop('disabled', true);
+					    $("#tipo_de_Pessoa").prop('disabled', true);
+					    $("#cpf_Cnpj").prop('disabled', true);
+					    
+        				}
+		        	}).fail(
+
+				    	function(xhr, status, errorThrown) {
+						alert("Erro ao Reativar o cliente por código: ", xhr.responseText);
+					});
+		}
+		
+function ReativarCliente(cod) {
+
+	$.ajax(
+			{
+	        method : "GET",
+	        url : "buscarClienteCod",
+	        data : "Cod=" + cod,
+	        success : function(response) {
+			$("#cod").val(response.cod);
+			$("#nome").val(response.nome);
+			$("#email").val(response.email);
+    		$("#telefone").val(response.telefone);
+	    	$("#tipo_de_Pessoa").val(response.tipo_de_Pessoa);
+		    $("#cpf_Cnpj").val(response.cpf_Cnpj);
+		    $("#status").val(response.status);
+
+		    $('#ModalPesquisar').modal('hide');
+		    $("#nome").prop('disabled', true);
+		    $("#tipo_de_Pessoa").prop('disabled', true);
+		    $("#cpf_Cnpj").prop('disabled', true);
+		    
+		    alert("Para reativar o cliente, clique em Salvar!");
+			}
+    	}).fail(
+
+	    	function(xhr, status, errorThrown) {
+			alert("Erro ao Buscar o cliente por código: ", xhr.responseText);
+		});
+}
+
+function habilitaCampos() {
+
+ 			$("#nome").prop('disabled', false);
+			$("#tipo_de_Pessoa").prop('disabled', false);
+			$("#cpf_Cnpj").prop('disabled', false);
+			$("#status").prop('disabled', false)
+			$("#nome").focus();
+		}
+
+function limpaCampos() {
+			$('#tabelaResultados > tbody > tr').remove();
+			$('#nomeBusca').val("");
+		}
+
+function deletarTela() {
+
+    var cod = $('#cod').val();
+
+			if (cod != null && cod.trim() != '') {
+				deletar(cod);
+			} else {
+				alert("Selecione um registro para Excluir!");
+			}
+			document.getElementById('CadastroCliente').reset();
+		}
+
+function salvarCliente() {
+
+    var cod = $("#cod").val();
+    var nome = $("#nome").val();
+	var email = $("#email").val();
+	var telefone = $("#telefone").val();
+	var tipo_de_Pessoa = $("#tipo_de_Pessoa").val();
+	var cpf_Cnpj = $("#cpf_Cnpj").val();
+	var status = $("#status").val();
+
+		if (nome == null || nome != null && nome.trim() == '') {
+			alert('Preencha o nome!')
+			$('#nome').focus();
+			return;
+			}
+		
+		if (telefone == null || telefone != null && telefone.trim() == '') {
+				alert('Preencha o telefone!')
+				$('#telefone').focus();
+				return;
+		 } else if (telefone.length < 20) {
+				alert('Preencha corretamente o telefone!')
+				$('#telefone').focus();
+				return;
+			}
+		if (tipo_de_Pessoa == null || tipo_de_Pessoa != null && tipo_de_Pessoa.trim() == '') {
+				alert('Preencha o tipo de Pessoa!')
+				$('#tipo_de_Pessoa').focus();
+				return;
+		    }
+		if (tipo_de_Pessoa != 'F' && tipo_de_Pessoa != 'J' && tipo_de_Pessoa != 'f' && tipo_de_Pessoa != 'j'){
+				alert('Preencha corretamente o tipo de Pessoa!')
+				$('#tipo_de_Pessoa').focus();
+				return;
+			}
+		if (cpf_Cnpj == null || cpf_Cnpj != null && cpf_Cnpj.trim() == '') {
+				alert('Preencha o CPF ou CNPJ!')
+				$('#cpf_Cnpj').focus();
+				return;
+		 } else if (cpf_Cnpj.length < 14) {
+				alert('Preencha corretamente o CPF ou CNPJ!')
+				$('#cpf_Cnpj').focus();
+				return;
+			}
+
+			$.ajax({
+				method : "POST",
+				url : "salvar",
+				data : JSON.stringify({
+					cod : cod, 
+					nome : nome,
+					email : email,
+					telefone : telefone,
+					tipo_de_Pessoa : tipo_de_Pessoa,
+					cpf_Cnpj : cpf_Cnpj,
+					status : status
+
+				}),
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {
+
+					$("#cod").val(response.cod);
+					alert("Cliente salvo com sucesso!");
+					document.getElementById('CadastroCliente').reset();
+				}
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao salvar!  Possíveis causas:\n\n  * O Cliente já é cadastrado;\n  * O Cpf é inválido;\n  * O Cnpj é inválido.! ", xhr.responseText);
+			});
+		}
+
+function atualizarParaEXC_APP() {
+
+    var cod = $("#cod").val();
+	var nome = $("#nome").val();
+	var email = $("#email").val();
+	var telefone = $("#telefone").val();
+	var tipo_de_Pessoa = $("#tipo_de_Pessoa").val();
+	var cpf_Cnpj = $("#cpf_Cnpj").val();
+	var status = $("#status").val();
+			
+		if (nome == null || nome != null && nome.trim() == '') {
+			alert('Selecione um cliente para excluir!')
+			$('#nome').focus();
+			return;
+			}
+		if (telefone == null || telefone != null && telefone.trim() == '') {
+			alert('Para inativar o cliente, preencha o telefone!')
+			$('#telefone').focus();
+			return;
+		} else if (telefone.length < 20) {
+			alert('Para inativar o cliente, preencha corretamente o telefone!')
+			$('#telefone').focus();
+			return;
+			}
+			
+			$.ajax({
+				method : "POST",
+				url : "atualizarParaEXC_APP",
+				data : JSON.stringify({
+					cod : cod,
+					nome : nome,
+					email : email,
+					telefone : telefone,
+					tipo_de_Pessoa : tipo_de_Pessoa,
+					cpf_Cnpj : cpf_Cnpj,
+					status : status
+
+				}),
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {
+			if (confirm('Deseja realmente excluir?')) {
+				$("#cod").val(response.cod);
+				alert("Cliente excluído com sucesso");
+				document.getElementById('CadastroCliente').reset();
+				}
+			}
+		}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao excluir cliente! ", xhr.responseText);
+			});
+		}
+		
+function tipoPessoa() {
+
+	var tipo = $('#tipo_de_Pessoa').val();
+			
+			if(tipo == ""){
+			return;
+			}	
+	
+			else if (tipo == 'f' || tipo == 'F') {
+				
+				var input = document.querySelector("#cpf_Cnpj");
+
+				input.disabled = false;
+				$('#cpf_Cnpj').val("");
+				$('#cpf_Cnpj').focus();
+				
+				document.getElementById('cpf_Cnpj').addEventListener('input', function(e) {
+			            x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+			            e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.' : '') + x[3] + (x[4] ? '-' + x[4] : '');
+			        
+		        	    });
+	    		}
+			
+    		else if (tipo == 'j' || tipo == 'J'){
+				
+				var input = document.querySelector("#cpf_Cnpj");
+				
+				input.disabled = false;
+				$('#cpf_Cnpj').val("");
+				$('#cpf_Cnpj').focus();
+				document.getElementById('cpf_Cnpj').addEventListener('input', function(e) {
+			        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/);
+			        e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.' : '') + x[3] + (x[4] ? '/' : x[4]) + x[4] + (x[5] ? '-' + x[5] : '');
+				});
+		   }
+    		else{
+	
+    			var input = document.querySelector("#cpf_Cnpj");
+				
+    			input.disabled = true;
+				$('#cpf_Cnpj').val("");
+				alert("Erro! Opção inválida!\nEscolha [F] ou [J]");
+				$('#tipo_de_Pessoa').val("");
+			}
+		}
+		
+	</script>
+</body>
+</html>
