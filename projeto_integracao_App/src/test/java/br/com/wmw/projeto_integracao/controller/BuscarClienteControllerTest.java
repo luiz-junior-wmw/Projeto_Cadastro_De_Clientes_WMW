@@ -14,28 +14,28 @@ class BuscarClienteControllerTest {
 	static final String CNPJ = "99.999.999/9999-99";
 
 	@Test
-	void DeveriaAceitarSomente_F() {
+	void deveriaAceitarSomente_F() {
 	
 		boolean campoF = controller.isVerificaSeEditRecebe_F(SOMENTE_F);
     	assertEquals(true, campoF);
 	}
 	
 	@Test
-	void DeveriaAceitarSomente_J() {
+	void deveriaAceitarSomente_J() {
 		
     	boolean campoJ = controller.isVerificaSeEditRecebe_J(SOMENTE_J);
     	assertEquals(true, campoJ);
 	}
 	
 	@Test
-	void DeveriaAceitarCpfSeConter14Caracteres() {
+	void deveriaAceitarCpfSeConter14Caracteres() {
 		
     	boolean campoQuatorzeCaracteres = controller.isVerificaSeCpfPossuiQuatorzeCaracteres(CPF);
     	assertEquals(true, campoQuatorzeCaracteres);
 	}
 	
 	@Test
-	void DeveriaAceitarCnpjSeConter19Caracteres() {
+	void deveriaAceitarCnpjSeConter19Caracteres() {
 		
     	boolean campoDezoitoCaracteres = controller.isVerificaSeCnpjPossuiDezoitoCaracteres(CNPJ);
     	assertEquals(true, campoDezoitoCaracteres);

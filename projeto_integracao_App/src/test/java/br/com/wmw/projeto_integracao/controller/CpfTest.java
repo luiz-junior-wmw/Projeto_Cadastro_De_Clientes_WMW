@@ -14,7 +14,6 @@ class CpfTest {
 
 		boolean cpfInvalido = CPF_ValidalidacaoController.validaCpf(CPF_INVALIDO);
 		assertEquals(false, cpfInvalido);
-
 	}
 
 	@Test

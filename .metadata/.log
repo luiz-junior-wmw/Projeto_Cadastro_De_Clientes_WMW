@@ -51,3 +51,16 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.jpt.jpa.core 4 0 2022-10-11 11:09:54.105
+!MESSAGE null JPA platform: P/projeto_integracao_App
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jpt.jpa.core.internal.InternalJpaProjectManager.buildJpaProject(InternalJpaProjectManager.java:644)
+	at org.eclipse.jpt.jpa.core.internal.InternalJpaProjectManager.buildJpaProject(InternalJpaProjectManager.java:636)
+	at org.eclipse.jpt.jpa.core.internal.InternalJpaProjectManager.buildJpaProject(InternalJpaProjectManager.java:629)
+	at org.eclipse.jpt.jpa.core.internal.InternalJpaProjectManager.addJpaProject(InternalJpaProjectManager.java:610)
+	at org.eclipse.jpt.jpa.core.internal.InternalJpaProjectManager.checkForJpaFacetTransition_(InternalJpaProjectManager.java:848)
+	at org.eclipse.jpt.jpa.core.internal.InternalJpaProjectManager$FacetFileChangeEventHandlerCommand.execute(InternalJpaProjectManager.java:837)
+	at org.eclipse.jpt.common.core.internal.utility.command.JobCommandJob.run(JobCommandJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
